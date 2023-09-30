@@ -1,0 +1,17 @@
+4.5.1 Output of the Proposed Model
+a)	Figure 4.1 shows the Home Page: This is the first web page of the system which displays all the available menus on the tab. This is the welcome page of the project; it is opened when the URL of the hostel management system.
+b)	Figure 4.2 shows the User Login Page: This is the web page of the system which serves as a measure of control of access to the system in which authorized user is expected to login with the email address and password in order to gain access into the system. The validation of authorized users will take such user to the main panel.
+c)	Figure 4.3 shows the Admin Dashboard Page: This is the web page with different modules and it is the interface where the admin can add hall, manage hall, add block, manage block, add room, manage room, student module, warden module and logout. It also shows the list of hostels available with their room capacity, gender and time created. In short, this page gives the summary of what has been stored in the database.
+d)	Figure 4.4 shows the Add Hall Page: This is an interface whereby admin can add a new hall to the model.
+e)	Figure 4.5 shows the Add Block Page: This feature allows the hostel to be added to the model by categorizing the occupants of the hostel namely female and male. Also, the number of rooms of each hostel is added using this feature.
+f)	Figure 4.6 shows the Add Warden Page: This is the interface where the admin can add new warden to the available list of wardens in the hostel.
+g)	Figure 4.7 shows the Manage Hall Page: This is where the action of editing and deleting the hall can be done. That is, the interface where the admin can update hall list in the hostel.
+h)	Figure 4.8 shows the Manage Block Page: This is the interface where the update the block list is there is any changes in the block in the hostel.
+i)	Figure 4.9 shows the Manage Warden Page: This is the interface where the admin can alter the warden list in the hostel.
+j)	Figure 4.10 shows the Update Session Page: This is the interface where the admin can update the current session of the academic year in the hostel.
+k)	Figure 4.11 shows the Update Warden Page: This is the interface where the admin can update the warden list is there is any amendment in the hostel.
+l)	Figure 4.12 shows the Upload Student Page: This is the interface where the admin can upload the student list for the session in the hostel so that each student will be able to login through their email as username and surname as password.
+m)	Figure 4.13 shows the Generate Bedspace Page: This is the interface where the admin can generate bedspace for student for the new academic year in the hostel.
+n)	Figure 4.14 shows the Student Dashboard Page: This is the interface where the student can view their details in the hostel.
+o)	Figure 4.15 shows the View / Update Student Details Page: This is the interface where the student can view and update their details like matric no, phone number, and so on in other to gain access to the booking of hostel.
+p)	Figure 4.16 shows the View Bedspace Information Page: This is the interface where the student can view the details of the room allocated to them in the hostel.
