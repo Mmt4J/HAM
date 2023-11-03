@@ -52,18 +52,6 @@
               <i class="mdi mdi-account-search menu-icon"></i>
               <span class="menu-title">Manage Student</span>
             </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="mdi mdi-emoticon menu-icon"></i>
-              <span class="menu-title">Icons</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="mdi mdi-file-document-box-outline menu-icon"></i>
-              <span class="menu-title">User Access Logs</span>
-            </a>
-          </li>
+          </li>   
         </ul>
       </nav>

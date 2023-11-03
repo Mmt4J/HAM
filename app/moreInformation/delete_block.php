@@ -27,7 +27,7 @@ if(isset($_GET['db'])){
             
             <a type="button" class="btn btn-danger btn-sm" href="<?php echo BASE_URL . '/admin/edit_block.php?dblock=' . id_encode($delete['id']); ?>">Yes</a>
 
-            <button type="button" class="btn btn-success btn-sm" data-bs-dismiss="modal">No</button>
+            <a href="manage_block" type="button" id="reset-url" class="btn btn-success btn-sm" >No</a>
 
         </div>
 

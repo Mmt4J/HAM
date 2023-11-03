@@ -105,7 +105,15 @@
           </li>
           <li class="nav-item nav-profile dropdown">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" id="profileDropdown">
-              <img src="../assets/images/faces/face5.jpg" alt="profile"/>
+              <img src="
+                <?php
+                  if(isset($warden['image'])){
+                    echo BASE_URL . '/assets/images/warden/' . $warden['image'];
+                    }else{ 
+                      echo "../assets/images/faces/face5.jpg"; 
+                    } 
+                ?>
+              " alt="profile"/>
               <span class="nav-profile-name"><?php echo $warden['first_name'];?></span>
             </a>
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">

@@ -72,14 +72,8 @@ $admins = 'admin';
                           <th>
                             Room Capacity
                           </th>
-                          <th>
-                            More
-                          </th>
-                          <th>
-                            Edit
-                          </th>
-                          <th>
-                            Delete
+                          <th colspan="3">
+                            Action
                           </th>
                         </tr>
                       </thead>
@@ -100,13 +94,13 @@ $admins = 'admin';
                           <?php echo $block['room_capacity'] . ' Rooms'; ?>
                           </td>
                           <td>
-                            <a class="text-info" id="moreInfo" href="<?php echo BASE_URL . '/admin/manage_block.php?infoid=' . id_encode($block['id']); ?>">Info</a>
+                            <a class="text-info" data-bs-toggle="tooltip" title="<?php echo $block['name'] . " Information"; ?>" id="moreInfo" href="<?php echo BASE_URL . '/admin/manage_block.php?infoid=' . id_encode($block['id']); ?>"><i class="mdi mdi-information menu-icon"></i></a>
                           </td>
                           <td>
-                            <a class="text-primary" href="<?php echo BASE_URL . '/admin/edit_block.php?bid=' . id_encode($block['id']); ?>">Edit</a>
+                            <a class="text-primary" data-bs-toggle="tooltip" title="Edit" href="<?php echo BASE_URL . '/admin/edit_block.php?bid=' . id_encode($block['id']); ?>"><i class="mdi mdi-export menu-icon"></i></a>
                           </td>
                           <td>
-                          <a class="text-danger" href="<?php echo BASE_URL . '/admin/manage_block.php?db=' . id_encode($block['id']); ?>">Delete</a>
+                          <a class="text-danger" data-bs-toggle="tooltip" title="Delete" href="<?php echo BASE_URL . '/admin/manage_block.php?db=' . id_encode($block['id']); ?>"><i class="mdi mdi-delete menu-icon"></i></a>
                           </td>
                         </tr>
                     <?php endforeach; ?>

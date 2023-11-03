@@ -25,7 +25,7 @@ if(isset($_GET['infoid'])){
         
         <?php $hall = selectOne('halls', ['id' => $moreInfo['hall_id']]); ?>
         <p>Hall: <?php echo $hall['name']?></p>
-        <?php $block = selectOne('blocks', ['id' => $moreInfo['hall_id']]); ?>
+        <?php $block = selectOne('blocks', ['id' => $moreInfo['block_id']]); ?>
         <p>Block: <?php echo $block['name']?> </p>
         <p>Romm Number: <?php echo $moreInfo['room_number']?> </p>
         <p>Bed Space Capacity: <?php echo $moreInfo['bed_capacity']?> </p>
@@ -35,7 +35,7 @@ if(isset($_GET['infoid'])){
         <p>Updated on: <?php echo $moreInfo['date_updated']?> </p>
       
         <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger btn-sm" id="room-moda-redirect" data-bs-dismiss="modal">Close</button>
         </div>
 
       </div>
@@ -47,10 +47,20 @@ if(isset($_GET['infoid'])){
 <script>
   window.onload = function(){
     var moreinfo = document.getElementById("title").textContent;
+    var redirectPage = document.getElementById("room-moda-redirect");
     var modal = document.getElementById("hallModal");
     var hallModal = new bootstrap.Modal(modal);
     if(moreinfo){
       hallModal.show();
     }
+
+    redirectPage.onclick = function () {
+      location.href = "manage_room";
+    }
+
+    modal.onclick = function () {
+      location.href = "manage_room";
+    }
+
   }
 </script>

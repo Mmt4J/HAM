@@ -33,7 +33,7 @@ if(isset($_GET['infoid'])){
         <p>Updated on: <?php echo $moreInfo['date_updated']?> </p>
       
         <div class="modal-footer">
-                <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger btn-sm" id="block-moda-redirect" data-bs-dismiss="modal">Close</button>
         </div>
 
       </div>
@@ -45,10 +45,20 @@ if(isset($_GET['infoid'])){
 <script>
   window.onload = function(){
     var moreinfo = document.getElementById("title").textContent;
+    var redirectPage = document.getElementById("block-moda-redirect");
     var modal = document.getElementById("hallModal");
     var hallModal = new bootstrap.Modal(modal);
     if(moreinfo){
       hallModal.show();
     }
+
+    redirectPage.onclick = function () {
+      location.href = "manage_block";
+    }
+
+    modal.onclick = function () {
+      location.href = "manage_block";
+    }
+
   }
 </script>

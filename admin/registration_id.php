@@ -70,7 +70,7 @@ if(!isset($_SESSION['admin_id'])){
                                 </div>
                             </div>                            
                             
-                            <button type="submit" name="generateId" class="btn btn-primary me-2">Submit</button>
+                            <button type="submit" name="generateId" class="btn btn-primary me-2">Generate</button>
 
                         </form>
                     </div>

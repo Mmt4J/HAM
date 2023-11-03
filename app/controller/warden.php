@@ -82,6 +82,46 @@
 		 $password = $_POST['password']; 	
 	} 
 
+	//Update warden profile
+	if(isset($_POST['update-warden'])){
+		
+		if(!empty($_FILES['image']['name'])){
+			$image_name = time() . '_' . $_FILES['image']['name'];
+			$destination = ROOT_PATH . "/assets/images/warden/" . $image_name;
+	
+			$result = move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+	
+			if ($result) {
+			
+				$_POST['image'] = $image_name;
+
+				$errors = validateWardenUdate($_POST);
+
+			}
+
+			if (count($errors) ===0) {
+
+				unset($_POST['update-warden']);
+
+				$id = $_SESSION['warden_id'];
+
+				$_POST['date_updated'] = date("Y-m-d H:i:s");
+
+				//Create post
+				$post_id = update($table, $id, $_POST);
+				$_SESSION['message'] = 'Profile updated succesfully';
+				$_SESSION['type'] = 'success';
+				header('location:' . BASE_URL . '/warden/profile');
+				exit();
+
+			}
+	
+		}else{
+			array_push($errors, "Post image required");
+		}
+			
+	} 
+		
 	
 	
 	

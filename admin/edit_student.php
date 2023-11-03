@@ -1,9 +1,18 @@
-<?php include("../path.php"); 
+<?php 
+include("../path.php"); 
+include(ROOT_PATH . "/app/controller/student.php");
 
 //if not login
 if(!isset($_SESSION['admin_id'])){
-    header('location: ' . BASE_URL . '/index.php');
-  }
+  header('location: ' . BASE_URL . '/index.php');
+}
+
+if(isset($_GET['infoid'])){
+  $studentId = id_decode($_GET['infoid']);
+}
+
+$student = selectOne('student', ['id' => $studentId]);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +21,7 @@ if(!isset($_SESSION['admin_id'])){
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Edit Student</title>
+  <title>Edit <?php echo $student['name']; ?></title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="../assets/vendors/base/vendor.bundle.base.css">
@@ -45,75 +54,59 @@ if(!isset($_SESSION['admin_id'])){
             <div class="main-panel">         
                 <div class="card">
                     <div class="card-body">
-                    <h4 class="card-title">Edit Student</h4>
-                    <p class="card-description">
-                        Ensure you fill all the info
-                    </p>
-                    <form class="forms-sample" action="">
-                        <div class="form-group row">
-                        <label for="registrationNumber" class="col-sm-2 col-form-label">Reg No:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="regNumber" placeholder="Registration number">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="fullName" class="col-sm-2 col-form-label">Full Name:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="fullname" placeholder="Surname FirstName LastName">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="department" class="col-sm-2 col-form-label">Department:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="department" placeholder="Department">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="sex" class="col-sm-2 col-form-label">Sex</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="sex" placeholder="Sex">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="phoneNumber" class="col-sm-2 col-form-label">Phone No:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="phoneNumber" maxlength="11" placeholder="Mobile number">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="email" class="col-sm-2 col-form-label">E-mail:</label>
-                        <div class="col-sm-10">
-                            <input type="email" class="form-control" id="email" placeholder="Your email">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="address" class="col-sm-2 col-form-label">Address:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="address" placeholder="Address">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="username" class="col-sm-2 col-form-label">username:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="username" placeholder="Username">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="password" class="col-sm-2 col-form-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="password" placeholder="Password">
-                        </div>
-                        </div>
-                        <div class="form-group row">
-                        <label for="confirmPassword" class="col-sm-2 col-form-label">Re-password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="cPassword" placeholder="Confirm password">
-                        </div>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary me-2">Submit</button>
-                        <button class="btn btn-light">Cancel</button>
-                    </form>
+                        <h4 class="card-title">Edit Profile</h4>
+                        <!-- Form error -->
+                        <?php include(ROOT_PATH . "/app/helper/form_error.php"); ?>
+
+                        <form class="forms-sample" action="edit_student" method="post" enctype="multipart/form-data">
+
+                        <input type="text" class="form-control d-none" name="id" value="<?php if(isset($student)){echo $student['id'];} ?>">
+
+                            <div class="form-group row">
+                              <label for="image" class="col-sm-2 col-form-label">Profile Picture</label>  
+                              <div class="col-sm-10 image-wrapper">
+                                <input type="file" class="form-control" name="image" id="image">  
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                            <label for="name" class="col-sm-2 col-form-label">Full Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="name" value="<?php if(isset($student)){echo $student['name'];} ?>" placeholder="FirstName LastName OtherName">
+                            </div>
+                            </div>
+
+                            <div class="form-group row">
+                            <label for="phoneNumber" class="col-sm-2 col-form-label">Phone No:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="phone" maxlength="11" value="<?php if(isset($student)){echo $student['phone'];} ?>" placeholder="Mobile number">
+                            </div>
+                            </div>
+
+                            <div class="form-group row">
+                            <label for="email" class="col-sm-2 col-form-label">E-mail:</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" value="<?php if(isset($student)){echo $student['email'];} ?>" name="email" placeholder="Your email">
+                            </div>
+                            </div>
+
+                            <div class="form-group row">
+                            <label for="address" class="col-sm-2 col-form-label">Address:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" value="<?php if(isset($student)){echo $student['address'];} ?>" name="address" placeholder="Address">
+                            </div>
+                            </div>
+
+                            <div class="form-group row">
+                            <label for="username" class="col-sm-2 col-form-label">username:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" value="<?php if(isset($student)){echo $student['username'];} ?>" name="username" placeholder="Username">
+                            </div>
+                            </div>
+                            
+                            <button type="submit" name="update-student" class="btn btn-primary me-2">Submit</button>
+                            
+                        </form>
                     </div>
                 </div>
                 </div>

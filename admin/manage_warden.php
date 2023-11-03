@@ -8,6 +8,8 @@ if(!isset($_SESSION['admin_id'])){
   header('location: ' . BASE_URL . '/index.php');
 }
 
+$wardens = selectAll('warden');
+$admins = 'admin';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,9 +51,9 @@ if(!isset($_SESSION['admin_id'])){
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Manage Wardens</h4>
-                  <p class="card-description">
-                    Add class <code>.table-striped</code>
-                  </p>
+
+                  <?php include(ROOT_PATH . "/app/helper/session_message.php"); ?>
+
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <thead>
@@ -69,32 +71,38 @@ if(!isset($_SESSION['admin_id'])){
                             Hall
                           </th>
                           <th>
-                            Phone No
+                            Email
                           </th>
-                          <th>
-                            Edit
-                          </th>
-                          <th>
-                            Delete
+                          <th colspan="3">
+                            Action
                           </th>
                         </tr>
                       </thead>
                       <tbody>
+                      <?php foreach ($wardens as $key => $warden): ?>
                         <tr>
                           <td class="py-1">
-                            <img src="../assets/images/faces/face1.jpg" alt="image"/>
+                            <img src="
+                            <?php
+                              if(isset($warden['image'])){
+                                echo BASE_URL . '/assets/images/warden/' . $warden['image'];
+                              }else{ 
+                                echo "../assets/images/faces/face5.jpg"; 
+                              } 
+                            ?>
+                            " alt="image"/>
                           </td>
                           <td>
-                            WD2023034
+                          <?php echo $warden['reg_num']; ?>
                           </td>
                           <td>
-                            Herman Beck
+                            <?php echo $warden['first_name']; ?>
                           </td>
                           <td>
-                            Ademola Hall
+                          <?php echo $warden['hall_id']; ?>
                           </td>
                           <td>
-                            07045346788
+                          <?php echo $warden['email']; ?>
                           </td>
                           <td>
                             <a href="#">Edit</a>
@@ -103,53 +111,8 @@ if(!isset($_SESSION['admin_id'])){
                             <a href="#">Delete</a>
                           </td>
                         </tr>
-
-                        <tr>
-                          <td class="py-1">
-                            <img src="../assets/images/faces/face6.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            WD2023456
-                          </td>
-                          <td>
-                            Olatoye Henrietta
-                          </td>
-                          <td>
-                            Ajumobi Hall
-                          </td>
-                          <td>
-                            07031541245
-                          </td>
-                          <td>
-                            <a href="#">Edit</a>
-                          </td>
-                          <td>
-                            <a href="#">Delete</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td class="py-1">
-                            <img src="../assets/images/faces/face7.jpg" alt="image"/>
-                          </td>
-                          <td>
-                            WD2023123
-                          </td>
-                          <td>
-                            Matthew Alabi
-                          </td>
-                          <td>
-                            Ajumobi Hall
-                          </td>
-                          <td>
-                            09054342312
-                          </td>
-                          <td>
-                            <a href="#">Edit</a>
-                          </td>
-                          <td>
-                            <a href="#">Delete</a>
-                          </td>
-                        </tr>
+                        <?php endforeach; ?>
+                       
                       </tbody>
                     </table>
                   </div>

@@ -88,104 +88,123 @@
 		 $password = $_POST['password']; 	
 	} 
 
-	// Application script
-	if(isset($_POST['application'])){
-
-		$confirmIfExist = selectOne('application', ['student_id' => $_POST['studentId']]);
+	// Update student profile
+	if(isset($_POST['update-student'])){
 		
-		if($confirmIfExist){
+		if(!empty($_FILES['image']['name'])){
+			$image_name = time() . '_' . $_FILES['image']['name'];
+			$destination = ROOT_PATH . "/assets/images/student/" . $image_name;
+	
+			$result = move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+	
+			if ($result) {
+			
+				$_POST['image'] = $image_name;
 
-			$ns = selectOne('student', ['id' => $_POST['studentId']]);
-			$it = array();
-			$fName = $ns['name'];
-			$delimeter = ' ';
-			$ns = explode($delimeter, $fName);
+				$errors = validateStudentUdate($_POST);
 
-			foreach ($ns as $n) {
-			$it[] = $n;
 			}
 
-			array_push($errors, 'You have already applied' . ' ' . $it[0] . '!');
+			if (count($errors) ===0) {
 
-		}else{
-			
-			$table = 'halls';
-			$halls = selectAll($table);
-			$randomHall = randomRecord($table);
-			
-			foreach($halls as  $key => $hall):
-				
-				if($hall['id'] == $randomHall['id']){
-					
-					$block = selectRandomRecord('blocks', ['hall_id' => $randomHall['id']]);
-					$room = selectRandomRecord('rooms', ['block_id' => $block['id']]);
-					if($room){
-						$number = $room['room_number'];
-						$bedCapacity = $room['bed_capacity'];
-						$sql = "SELECT COUNT(*) FROM `application` WHERE room_number = $number";
-						$result = $conn->query($sql);
-						if($result <= $bedCapacity){
-							unset($_POST['application'], $_POST['studentId']);
-							$_POST['student_id'] = $_SESSION['student_id'];
-							$_POST['hall_id'] = $block['hall_id'];
-							$_POST['block_id'] = $room['block_id'];
-							$_POST['room_number_id'] = $room['room_number'];
-							$_POST['bed_number'] = $result + 1;
-							$application_id = create('application', $_POST);
-							header('location: ' . BASE_URL . '/student/dashboard.php');
-							exit();
-						}
-					}
 
-					// $blockExist = selectAll('application', ['block_id' => $block['id']]);
-					// $roomExist = selectAll('application', ['room_number_id' => $block['id']]);
-					// if(isset($blockExist) && );
-					// dd($bedExist);
+				if(isset($_SESSION['admin_id'])){
+					$id = $_POST['id'];
+				}else{
+					$id = $_SESSION['student_id'];
 				}
 
-			endforeach;
-			// dd($hall);
-			// $_POST['hall_id']='';
-			// $_POST['student_id']= $_SESSION['student_id'];
-			// $_POST['block_id']='';
-			// $_POST['room_number_id']='';
-			// $_POST['bed_number']='';
+				$_POST['date_updated'] = date("Y-m-d H:i:s");
 
+				unset($_POST['update-student'], $_POST['id']);
+
+				//Update student
+				$post_id = update($table, $id, $_POST);
+				$_SESSION['message'] = 'Profile updated succesfully';
+				$_SESSION['type'] = 'success';
+				if(isset($_SESSION['admin_id'])){
+					header('location:' . BASE_URL . '/admin/manage_student');
+					exit();
+				}
+
+				if(isset($_SESSION['student_id'])){
+					header('location:' . BASE_URL . '/student/dashboard');
+					exit();
+				}
+
+			}
+	
+		}else{
+			array_push($errors, "Post image required");
 		}
+			
+	} 
+		
+	//Delete hall
+	if (isset($_GET['dstudent'])) {
+		$delete = id_decode($_GET['dstudent']);
+		$count = delete('student', $delete);
+		$_SESSION['message'] = 'Record deleted succesfully';
+		$_SESSION['type'] = 'success';
+		header('location:' . BASE_URL . '/admin/manage_student.php');
+		exit();
+	}
+	
+	// Application
+	if(isset($_POST['application'])){
+
+			$confirmIfExist = selectOne('application', ['student_id' => $_POST['studentId']]);
+			
+			if($confirmIfExist){
+
+				$ns = selectOne('student', ['id' => $_POST['studentId']]);
+				$name = array();
+				$fName = $ns['name'];
+				$delimeter = ' ';
+				$names = explode($delimeter, $fName);
+
+				foreach ($names as $n) {
+				$name[] = $n;
+				}
+
+				array_push($errors, 'You have already applied' . ' ' . $name[0] . '!');
+
+			}else{
+
+				$randomRoom = randomRecord('rooms');
+
+				$roomId = $randomRoom['id'];
+
+				$result = selectAll('application', ['room_number_id'=>$roomId]);
+
+				$numberOfRow = count($result);
+
+				if($numberOfRow < $randomRoom['bed_capacity'] || $numberOfRow == 0){
+					
+					while($numberOfRow < $randomRoom['bed_capacity']){
+					
+						unset($_POST['application'], $_POST['studentId']);
+						$_POST['student_id'] = $_SESSION['student_id'];
+						$_POST['room_number'] = $randomRoom['room_number'];
+						$_POST['room_number_id'] = $randomRoom['id'];
+		
+						if($numberOfRow < $randomRoom['bed_capacity']){
+							
+							$bed_number = $numberOfRow + 1;
+							$_POST['bed_number'] = $bed_number;
+
+							$application_id = create('application', $_POST);
+							header('location: ' . BASE_URL . '/student/dashboard.php?applicationId='. $application_id);
+							exit();
+						}
+		
+					}
+				}
+				
+			}
 
 	  }
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	//Delete user
-	if (isset($_GET['del_id'])) {
-		$count = delete($table, $_GET['del_id']);
-		$_SESSION['message'] = 'User deleted succesfully';
-		$_SESSION['type'] = 'success';
-		header('location:' . BASE_URL . '/admin/admin');
-		exit();
-	}
-
 	//fetch admin info with id for edition 
 	if (isset($_GET['id'])) {
 		$user = selectOne($table, ['id' => $_GET['id']]);
@@ -197,42 +216,4 @@
 		// $bio = html_entity_decode($user['bio']);
 	}
 
-	if (isset($_POST['update-admin'])) {
-		$errors = validateAdmin($_POST);
-		$u_id = $_POST['id'];
-		$confirmP =$_POST['passwordC'];
-		unset($_POST['update-admin'], $_POST['passwordC'], $_POST['id']);
-		if (count($errors) === 0) {
-
-			// if (!empty($_FILES['avatar']['name'])) {
-			// $image_name = time() . '_' . $_FILES['avatar']['name'];
-			// $destination = ROOT_PATH . "/assets/image/" . $image_name;
-
-			// $result = move_uploaded_file($_FILES['avatar']['tmp_name'], $destination);
-
-			// 	if ($result) {
-			// 		$_POST['avatar'] = $image_name;
-
-			// 	}else{
-			// 		unset($_POST['avatar']);
-			// 	}
-			// }
-		
-			$_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-			// $_POST['bio'] = htmlentities($_POST['bio']);
-			$count = update($table, $u_id, $_POST);
-			
-			$_SESSION['message'] = 'User updated succesfully';
-			$_SESSION['type'] = 'success';
-			header('location:' . BASE_URL . '/admin/admin');
-		}else{
-				$id = $u_id;
-				$username = $_POST['username'];
-				$email = $_POST['email'];
-				$password = $_POST['password'];
-				$passwordC = $confirmP;
-				// $role = $_POST['role'];
-				// $bio = $_POST['bio'];
-			}
-
-	}
+	

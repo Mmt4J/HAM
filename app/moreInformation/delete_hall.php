@@ -27,7 +27,7 @@ if(isset($_GET['dh'])){
             
             <a type="button" class="btn btn-danger btn-sm" href="<?php echo BASE_URL . '/admin/edit_hall.php?dhall=' . id_encode($delete['id']); ?>">Yes</a>
 
-            <button type="button" id="reset-url" class="btn btn-success btn-sm" >No</button>
+            <a href="manage_hall" type="button" id="reset-url" class="btn btn-success btn-sm" >No</a>
         </div>
 
       </div>

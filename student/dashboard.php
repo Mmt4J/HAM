@@ -36,8 +36,8 @@ foreach ($names as $name) {
   <link rel="stylesheet" href="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <link rel="stylesheet" href="../assets/css/mystyle.css">
   <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/mystyle.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../assets/images/favicon.png" />
 </head>
@@ -56,31 +56,62 @@ foreach ($names as $name) {
         <div class="content-wrapper">
         <!-- Warning message -->
         <?php include(ROOT_PATH . "/app/helper/form_error.php"); ?>
-          <!-- <div class="row">
-           
-          </div> -->
-            <?php include(ROOT_PATH . "/app/include/application_form.php"); ?>
-            <div class="me-md-3 me-xl-5">
-                  <h2>Student Hostel Details</h2>
+        <!-- Session message -->
+        <?php include(ROOT_PATH . "/app/helper/session_message.php"); ?>
+  
+          <div class="row">
+            <div class="col-md-2 grid-margin">
+              <div class="">
+                <div class="card-body frame">
                   
-                  <p class="mb-md-0">Full Name: <?php echo $items[0] . ' ' .  $items[1]; if(!empty($items[2])){ echo ' ' . $items[2];}?></p>
-                  
-                  <p class="mb-md-0">Registration number: <?php echo $student['reg_number'];?></p>
+                  <img src="
+                    <?php 
+                      if(isset($student['image'])){
+                          echo BASE_URL . '/assets/images/student/' . $student['image'];
+                          }else{ 
+                            echo "../assets/images/faces/face5.jpg"; 
+                          } 
+                    ?>
+                    " alt="profile" class="profile-picture">
 
-                  <?php if(isset($hostelDetails)){ 
-                    $hall = selectOne('halls', ['id' => $hostelDetails['hall_id']]);
-                    $block = selectOne('blocks', ['id' => $hostelDetails['block_id']]);
-                    $room = selectOne('rooms', ['id' => $hostelDetails['room_number_id']]);
-                    } 
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-5 grid-margin stretch-card">
+              <div class="">
+                <div class="card-body">
+                
+                  <h3>Student Hostel Details</h3>
+                  
+                  <p class="mb-md-0">Full Name: <strong><?php echo $items[0] . ' ' .  $items[1]; if(!empty($items[2])){ echo ' ' . $items[2];}?></strong></p>
+                  
+                  <p class="mb-md-0">Registration number: <strong><?php echo $student['reg_number'];?></strong></p>
+
+                  <?php 
+                    if(isset($hostelDetails)){ 
+                      $room = selectOne('rooms', ['id' => $hostelDetails['room_number_id']]);
+                      $block = selectOne('blocks', ['id' => $room['block_id']]);
+                      $hall = selectOne('halls', ['id' => $room['hall_id']]);
+                      } 
                   ?>
-                  <p class="mb-md-0">Hall Name: <?php if(isset($hall)){echo $hall['name'];}else{ echo 'NIL';}?></p>
-                  <p class="mb-md-0">Block Name: <?php if(isset($block)){echo $block['name'];}else{ echo 'NIL';}?></p>
-                  <p class="mb-md-0">Room Number: <?php if(isset($room)){echo $room['room_number'];}else{ echo 'NIL';}?></p>
+                  <p class="mb-md-0">Hall Name: <strong><?php if(isset($hall)){echo $hall['name'];}else{ echo 'NIL';}?></strong></p>
+                  <p class="mb-md-0">Block Name: <strong><?php if(isset($block)){echo $block['name'];}else{ echo 'NIL';}?></strong></p>
+                  <p class="mb-md-0">Room Number: <strong><?php if(isset($hostelDetails)){echo $hostelDetails['room_number'];}else{ echo 'NIL';}?></strong></p>
 
-                  <p class="mb-md-0">Bed Number: <?php if(isset($hostelDetails)){echo $hostelDetails['bed_number'];}else{ echo 'NIL';}?></p>
+                  <p class="mb-md-0">Bed Number: <strong><?php if(isset($hostelDetails)){echo $hostelDetails['bed_number'];}else{ echo 'NIL';}?></strong></p>
 
                   <p><button id="print" onclick="window.print();">print</button></p>
+
+                </div>
+              </div>
             </div>
+
+          </div>
+
+
+            <?php  include(ROOT_PATH . "/app/include/application_form.php"); ?>
 
         </div>
         <!-- content-wrapper ends -->

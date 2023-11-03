@@ -74,16 +74,10 @@ $blocks = 'blocks';
                             Room Number
                           </th>
                           <th>
-                            BSC
+                            Bed Space Capacity
                           </th>
-                          <th>
-                            More
-                          </th>
-                          <th>
-                            Edit
-                          </th>
-                          <th>
-                            Delete
+                          <th colspan="3">
+                            Action
                           </th>
                         </tr>
                       </thead>
@@ -108,13 +102,13 @@ $blocks = 'blocks';
                           <?php echo $room['bed_capacity']; ?>
                           </td>
                           <td>
-                            <a class="text-info" id="moreInfo" href="<?php echo BASE_URL . '/admin/manage_room.php?infoid=' . id_encode($room['id']); ?>">Info</a>
+                            <a class="text-info" data-bs-toggle="tooltip" title="<?php echo "Room " .$room['room_number'] . " Information"; ?>"  id="moreInfo" href="<?php echo BASE_URL . '/admin/manage_room.php?infoid=' . id_encode($room['id']); ?>"><i class="mdi mdi-information menu-icon"></i></a>
                           </td>
                           <td>
-                            <a class="text-primary" href="<?php echo BASE_URL . '/admin/edit_room.php?rid=' . id_encode($room['id']); ?>">Edit</a>
+                            <a class="text-primary" data-bs-toggle="tooltip" title="Edit" href="<?php echo BASE_URL . '/admin/edit_room.php?rid=' . id_encode($room['id']); ?>"><i class="mdi mdi-export menu-icon"></i></a>
                           </td>
                           <td>
-                          <a class="text-danger" href="<?php echo BASE_URL . '/admin/manage_room.php?dr=' . id_encode($room['id']); ?>">Delete</a>
+                          <a class="text-danger" data-bs-toggle="tooltip" title="Delete" href="<?php echo BASE_URL . '/admin/manage_room.php?dr=' . id_encode($room['id']); ?>"><i class="mdi mdi-delete menu-icon"></i></a>
                           </td>
                         </tr>
                         <?php endforeach; ?>

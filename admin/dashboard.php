@@ -8,6 +8,9 @@ if(!isset($_SESSION['admin_id'])){
 }
 
 $halls = selectAll('halls');
+$wardens = selectAll('warden');
+$students = selectAll('student');
+$applications = selectAll('application');
 $blocks = selectAll('blocks');
 $rooms = selectAll('rooms');
 $bedspace = sumColumn('rooms', 'bed_capacity');
@@ -63,6 +66,8 @@ $vailableBedSpace = $bedspace - count(selectAll('application'));
               </div>
             </div>
           </div>
+          <!-- Session message -->
+          <?php include(ROOT_PATH . "/app/helper/session_message.php"); ?>
 
           <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
@@ -133,18 +138,18 @@ $vailableBedSpace = $bedspace - count(selectAll('application'));
                     <div class="tab-pane fade" id="sales" role="tabpanel" aria-labelledby="sales-tab">
                       <div class="d-flex flex-wrap justify-content-xl-between">
                         <div class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-calendar-heart icon-lg me-3 text-primary"></i>
+                          <i class="mdi mdi-account-multiple icon-lg me-3 text-primary"></i>
                           <div class="d-flex flex-column justify-content-around">
-                            <small class="mb-1 text-muted">Start date</small>
+                            <small class="mb-1 text-muted">Numbers Of Wardens</small>
                             <div class="dropdown">
                               <a class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium" href="#" role="button" id="dropdownMenuLinkA" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <h5 class="mb-0 d-inline-block">26 Jul 2018</h5>
+                                <h5 class="mb-0 d-inline-block"><?php echo count($wardens); ?></h5>
                               </a>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLinkA">
+                              <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLinkA">
                                 <a class="dropdown-item" href="#">12 Aug 2018</a>
                                 <a class="dropdown-item" href="#">22 Sep 2018</a>
                                 <a class="dropdown-item" href="#">21 Oct 2018</a>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                         </div>
@@ -181,47 +186,47 @@ $vailableBedSpace = $bedspace - count(selectAll('application'));
                     <div class="tab-pane fade" id="purchases" role="tabpanel" aria-labelledby="purchases-tab">
                       <div class="d-flex flex-wrap justify-content-xl-between">
                         <div class="d-none d-xl-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-calendar-heart icon-lg me-3 text-primary"></i>
+                          <i class="mdi mdi-account-multiple icon-lg me-3 text-primary"></i>
                           <div class="d-flex flex-column justify-content-around">
-                            <small class="mb-1 text-muted">Start date</small>
+                            <small class="mb-1 text-muted">Student Total</small>
                             <div class="dropdown">
                               <a class="btn btn-secondary dropdown-toggle p-0 bg-transparent border-0 text-dark shadow-none font-weight-medium" href="#" role="button" id="dropdownMenuLinkA" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <h5 class="mb-0 d-inline-block">26 Jul 2018</h5>
+                                <h5 class="mb-0 d-inline-block"><?php echo count($students); ?></h5>
                               </a>
-                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLinkA">
+                              <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuLinkA">
                                 <a class="dropdown-item" href="#">12 Aug 2018</a>
                                 <a class="dropdown-item" href="#">22 Sep 2018</a>
                                 <a class="dropdown-item" href="#">21 Oct 2018</a>
-                              </div>
+                              </div> -->
                             </div>
                           </div>
                         </div>
                         <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-currency-usd me-3 icon-lg text-danger"></i>
+                          <i class="mdi mdi mdi-pencil me-3 icon-lg text-primary"></i>
                           <div class="d-flex flex-column justify-content-around">
-                            <small class="mb-1 text-muted">Revenue</small>
-                            <h5 class="me-2 mb-0">$577545</h5>
+                            <small class="mb-1 text-muted">Total of Student Applied</small>
+                            <h5 class="me-2 mb-0"><?php echo count($applications); ?></h5>
                           </div>
                         </div>
                         <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-eye me-3 icon-lg text-success"></i>
+                          <i class="mdi mdi mdi-pencil-off icon-lg text-success"></i>
                           <div class="d-flex flex-column justify-content-around">
-                            <small class="mb-1 text-muted">Total views</small>
-                            <h5 class="me-2 mb-0">9833550</h5>
+                            <small class="mb-1 text-muted">Students yet to apply</small>
+                            <h5 class="me-2 mb-0"><?php echo (count($students)-count($applications)); ?></h5>
                           </div>
                         </div>
                         <div class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-download me-3 icon-lg text-warning"></i>
+                          <i class="mdi mdi-close me-3 icon-lg text-danger"></i>
                           <div class="d-flex flex-column justify-content-around">
-                            <small class="mb-1 text-muted">Downloads</small>
-                            <h5 class="me-2 mb-0">2233783</h5>
+                            <small class="mb-1 text-muted">Expelled Student</small>
+                            <h5 class="me-2 mb-0">0</h5>
                           </div>
                         </div>
                         <div class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
-                          <i class="mdi mdi-flag me-3 icon-lg text-danger"></i>
+                          <i class="mdi mdi-check me-3 icon-lg text-danger"></i>
                           <div class="d-flex flex-column justify-content-around">
-                            <small class="mb-1 text-muted">Flagged</small>
-                            <h5 class="me-2 mb-0">3497843</h5>
+                            <small class="mb-1 text-muted">Students on Probation</small>
+                            <h5 class="me-2 mb-0">0</h5>
                           </div>
                         </div>
                       </div>

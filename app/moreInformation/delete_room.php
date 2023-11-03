@@ -27,7 +27,7 @@ if(isset($_GET['dr'])){
             
             <a type="button" class="btn btn-danger btn-sm" href="<?php echo BASE_URL . '/admin/edit_room.php?droom=' . id_encode($delete['id']); ?>">Yes</a>
 
-            <button type="button" class="btn btn-success btn-sm" data-bs-dismiss="modal">No</button>
+            <a href="manage_room" type="button" id="reset-url" class="btn btn-success btn-sm" >No</a>
         </div>
 
       </div>

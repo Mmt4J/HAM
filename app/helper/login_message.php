@@ -1,12 +1,11 @@
  <!-- popup message -->
 <div class="
     <?php 
-        if(isset($_SESSION['hasLogin']) || isset($_SESSION['type'])){ 
+        if(isset($_SESSION['hasLogin'])){ 
             
             echo 'modal-bg'; 
-            $success = $_SESSION['type'];
             
-            unset($_SESSION['hasLogin'], $_SESSION['type']); 
+            unset($_SESSION['hasLogin']); 
             
         }else{
                 echo 'd-none';

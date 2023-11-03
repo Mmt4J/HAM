@@ -37,3 +37,12 @@
 .navbar-brand{
     font-weight: 800;
 }
+
+/* Profile-picture */
+.profile-picture{
+    width: 100px !important; 
+    border: 3px solid rgba(32, 28, 28, 0.374)  !important;
+}
+.card-body{
+    /* padding: 3px !important; */
+}

@@ -50,9 +50,9 @@ $admins = 'admin';
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Manage Students</h4>
-                  <p class="card-description">
-                    Add class <code>.table-striped</code>
-                  </p>
+                  
+                  <?php include(ROOT_PATH . "/app/helper/session_message.php"); ?>
+                  
                   <div class="table-responsive">
                     <table class="table table-striped">
                       <thead>
@@ -67,16 +67,13 @@ $admins = 'admin';
                             Name
                           </th>
                           <th>
-                            Department
-                          </th>
-                          <th>
                             Phone No
                           </th>
                           <th>
-                            Edit
+                            Department
                           </th>
-                          <th>
-                            Delete
+                          <th colspan="3">
+                            Action
                           </th>
                         </tr>
                       </thead>
@@ -84,7 +81,15 @@ $admins = 'admin';
                       <?php foreach ($students as $key => $student): ?>
                         <tr>
                           <td class="py-1">
-                            <img src="../assets/images/faces/face1.jpg" alt="image"/>
+                            <img src="
+                            <?php
+                              if(isset($student['image'])){
+                                echo BASE_URL . '/assets/images/student/' . $student['image'];
+                              }else{ 
+                                echo "../assets/images/faces/face5.jpg"; 
+                              } 
+                            ?>
+                            " alt="image"/>
                           </td>
                           <td>
                             <?php echo $student['reg_number']; ?>
@@ -93,16 +98,19 @@ $admins = 'admin';
                             <?php echo $student['name']; ?>
                           </td>
                           <td>
-                            <?php echo $student['department']; ?>
-                          </td>
-                          <td>
                             <?php echo $student['phone']; ?>
                           </td>
                           <td>
-                            <a href="#">Edit</a>
+                            <?php echo $student['department']; ?>
                           </td>
                           <td>
-                            <a href="#">Delete</a>
+                          <a class="text-info"  data-bs-toggle="tooltip" title="<?php echo $student['name'] . " Information"; ?>" id="moreInfo" href="<?php echo BASE_URL . '/admin/manage_student.php?infoid=' . id_encode($student['id']); ?>"><i class="mdi mdi-information menu-icon"></i></a>
+                          </td>
+                          <td>
+                            <a class="text-primary" data-bs-toggle="tooltip" title="Edit Account" href="<?php echo BASE_URL . '/admin/edit_student.php?infoid=' . id_encode($student['id']); ?>"><i class="mdi mdi-export menu-icon"></i></a>
+                          </td>
+                          <td>
+                          <a class="text-danger" data-bs-toggle="tooltip" title="Delete" href="<?php echo BASE_URL . '/admin/manage_student.php?ds=' . id_encode($student['id']); ?>"><i class="mdi mdi-delete menu-icon"></i></a>
                           </td>
                         </tr>
                       <?php endforeach; ?>
@@ -126,6 +134,9 @@ $admins = 'admin';
   </div>
   <!-- container-scroller -->
 
+  <!-- More information about student -->
+  <?php include(ROOT_PATH . "/app/moreInformation/student_modal.php"); ?>
+
   <!-- plugins:js -->
   <script src="../assets/vendors/base/vendor.bundle.base.js"></script>
   <!-- endinject -->
@@ -147,6 +158,9 @@ $admins = 'admin';
   <!-- End custom js for this page-->
 
   <script src="../assets/js/jquery.cookie.js" type="text/javascript"></script>
+
+    <!-- Delete warning -->
+    <?php  include(ROOT_PATH . "/app/moreInformation/delete_student.php"); ?>
 </body>
 
 </html>
